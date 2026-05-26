@@ -1,0 +1,48 @@
+{
+  "name": "aimarajs",
+  "version": "1.0.0",
+  "description": "Pure Javascript TreeView Component",
+  "keywords": [
+    "tree",
+    "component"
+  ],
+  "homepage": "https://github.com/ch-zacmo/aimaraJS#readme",
+  "bugs": {
+    "url": "https://github.com/ch-zacmo/aimaraJS/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ch-zacmo/aimaraJS.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Zacharie Monnet",
+  "type": "commonjs",
+  "main": "lib/Aimara.js",
+  "browser": "dist/Aimara.min.js",
+  "unpkg": "dist/Aimara.min.js",
+  "jsdelivr": "dist/Aimara.min.js",
+  "files": [
+    "css/",
+    "dist/",
+    "images/",
+    "lib/",
+    "Example.html",
+    "LICENSE",
+    "README.md"
+  ],
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "node scripts/build.cjs",
+    "check": "node --check lib/Aimara.js && node --check scripts/build.cjs",
+    "test": "npm run check && npm run build",
+    "prepack": "npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.0"
+  }
+}
