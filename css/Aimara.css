@@ -1,6 +1,99 @@
-ul.tree, ul.tree ul {
+.aimara-tree {
+	--aimara-bg: #fff;
+	--aimara-text: #1f2933;
+	--aimara-hover-bg: #dcedff;
+	--aimara-hover-text: #111827;
+	--aimara-selected-bg: #ceffce;
+	--aimara-selected-border: #8ae88a;
+	--aimara-menu-bg: #f1f1f1;
+	--aimara-menu-text: #1f2933;
+	--aimara-menu-hover-bg: aquamarine;
+	--aimara-shadow: 2px 2px 3px rgba(0, 0, 0, 0.26);
+	--aimara-line: #c7d0d9;
+	--aimara-filter-bg: #fff2a8;
+	--aimara-filter-selected-bg: #f3e58b;
+	--aimara-hover-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+	--aimara-selected-shadow: 0 0 0 2px rgba(138, 232, 138, 0.18);
+}
+
+.aimara-theme-light {
+	--aimara-bg: #fff;
+	--aimara-text: #1f2933;
+	--aimara-hover-bg: #dcedff;
+	--aimara-hover-text: #111827;
+	--aimara-selected-bg: #ceffce;
+	--aimara-selected-border: #8ae88a;
+	--aimara-menu-bg: #f1f1f1;
+	--aimara-menu-text: #1f2933;
+	--aimara-menu-hover-bg: aquamarine;
+	--aimara-shadow: 2px 2px 3px rgba(0, 0, 0, 0.26);
+	--aimara-line: #c7d0d9;
+	--aimara-filter-bg: #fff2a8;
+	--aimara-filter-selected-bg: #f3e58b;
+	--aimara-hover-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+	--aimara-selected-shadow: 0 0 0 2px rgba(138, 232, 138, 0.18);
+}
+
+.aimara-theme-dark {
+	--aimara-bg: #15181d;
+	--aimara-text: #eef3f8;
+	--aimara-hover-bg: #26384d;
+	--aimara-hover-text: #fff;
+	--aimara-selected-bg: #214d38;
+	--aimara-selected-border: #56c083;
+	--aimara-menu-bg: #1e242b;
+	--aimara-menu-text: #eef3f8;
+	--aimara-menu-hover-bg: #2c5a71;
+	--aimara-shadow: 0 10px 24px rgba(0, 0, 0, 0.42);
+	--aimara-line: #56616f;
+	--aimara-filter-bg: #675c20;
+	--aimara-filter-selected-bg: #74682a;
+	--aimara-hover-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+	--aimara-selected-shadow: 0 0 0 2px rgba(86, 192, 131, 0.2);
+}
+
+.aimara-theme-auto {
+	--aimara-bg: #fff;
+	--aimara-text: #1f2933;
+	--aimara-hover-bg: #dcedff;
+	--aimara-hover-text: #111827;
+	--aimara-selected-bg: #ceffce;
+	--aimara-selected-border: #8ae88a;
+	--aimara-menu-bg: #f1f1f1;
+	--aimara-menu-text: #1f2933;
+	--aimara-menu-hover-bg: aquamarine;
+	--aimara-shadow: 2px 2px 3px rgba(0, 0, 0, 0.26);
+	--aimara-line: #c7d0d9;
+	--aimara-filter-bg: #fff2a8;
+	--aimara-filter-selected-bg: #f3e58b;
+	--aimara-hover-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+	--aimara-selected-shadow: 0 0 0 2px rgba(138, 232, 138, 0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+	.aimara-theme-auto {
+		--aimara-bg: #15181d;
+		--aimara-text: #eef3f8;
+		--aimara-hover-bg: #26384d;
+		--aimara-hover-text: #fff;
+		--aimara-selected-bg: #214d38;
+		--aimara-selected-border: #56c083;
+		--aimara-menu-bg: #1e242b;
+		--aimara-menu-text: #eef3f8;
+		--aimara-menu-hover-bg: #2c5a71;
+		--aimara-shadow: 0 10px 24px rgba(0, 0, 0, 0.42);
+		--aimara-line: #56616f;
+		--aimara-filter-bg: #675c20;
+		--aimara-filter-selected-bg: #74682a;
+		--aimara-hover-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+		--aimara-selected-shadow: 0 0 0 2px rgba(86, 192, 131, 0.2);
+	}
+}
+
+ul.tree,
+ul.tree ul {
 	list-style-type: none;
-	background: url(vline.png) repeat-y;
+	background: none;
 	margin: 0;
 	padding: 0;
 	padding-left: 7px;
@@ -10,24 +103,48 @@ ul.tree, ul.tree ul {
 	cursor: default;
 }
 
-li.last {
-	background-image: 'url("css/lastnode.png")';
-	background-repeat: no-repeat;
+ul.tree {
+	background-color: var(--aimara-bg, #fff);
+	color: var(--aimara-text, #1f2933);
 }
 
 ul.tree ul {
-	padding-left: 7px;
+	padding-left: 14px;
 }
 
 ul.tree li {
+	position: relative;
 	margin: 0;
 	padding: 0 12px;
 	line-height: 22px;
-	background: url(node.png) no-repeat;
+	background: none;
+}
+
+ul.tree li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 11px;
+	width: 10px;
+	border-top: 1px solid var(--aimara-line, #c7d0d9);
+}
+
+ul.tree li::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	border-left: 1px solid var(--aimara-line, #c7d0d9);
 }
 
 ul.tree li.last {
-	background: #fff url(lastnode.png) no-repeat;
+	background-color: var(--aimara-bg, #fff);
+}
+
+ul.tree li.last::after {
+	bottom: auto;
+	height: 11px;
 }
 
 img.exp_col {
@@ -35,6 +152,7 @@ img.exp_col {
 	margin-top: 4px;
 	margin-left: -20px;
 	vertical-align: sub;
+	z-index: 1;
 }
 
 img.exp_col_empty {
@@ -43,6 +161,7 @@ img.exp_col_empty {
 	margin-left: -20px;
 	vertical-align: sub;
 	width: 16px;
+	z-index: 1;
 }
 
 img.icon_tree {
@@ -59,10 +178,16 @@ span.node a {
 	padding-left: 3px;
 }
 
+span.node,
+span.node_selected {
+	position: relative;
+	z-index: 1;
+	color: var(--aimara-text, #1f2933);
+}
+
 span.node {
 	margin-left: -1px;
 	padding-right: 3px;
-
 	padding-top: 4px;
 	padding-bottom: 4px;
 }
@@ -72,55 +197,99 @@ span.node:hover {
 	padding-right: 3px;
 	padding-top: 4px;
 	padding-bottom: 4px;
-	background-color: #DCEDFF;
+	background-color: var(--aimara-hover-bg, #dcedff);
+	color: var(--aimara-hover-text, #111827);
 	border-radius: 2px;
 }
 
 span.node_selected {
 	margin-left: -2px;
 	padding-right: 3px;
-
 	padding-top: 4px;
 	padding-bottom: 4px;
-	background-color: #CEFFCE;
-	border: 1px solid #8AE88A;
+	background-color: var(--aimara-selected-bg, #ceffce);
+	border: 1px solid var(--aimara-selected-border, #8ae88a);
 	border-radius: 2px;
+}
+
+ul.tree li[role="treeitem"]:focus {
+	outline: none;
+}
+
+ul.tree li[role="treeitem"]:focus > span.node,
+ul.tree li[role="treeitem"]:focus > span.node_selected {
+	outline: 2px solid var(--aimara-selected-border, #8ae88a);
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
+span.node > a,
+span.node_selected > a {
+	color: inherit;
+	text-decoration: none;
 }
 
 span.node_selected a {
 	padding-left: 3px;
 }
 
-.menu,.sub-menu {
-  margin: 0;
-  padding: 0;
-	font: 10px Verdana, sans-serif;
+span.aimara-filter-match a {
+	background-color: var(--aimara-filter-bg, #fff2a8);
+	border-radius: 2px;
+}
+
+span.node_selected.aimara-filter-match a {
+	background-color: var(--aimara-filter-selected-bg, #f3e58b);
+}
+
+ul.tree.aimara-animate span.node,
+ul.tree.aimara-animate span.node_selected {
+	transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, color 140ms ease;
+}
+
+ul.tree.aimara-animate span.node:hover {
+	box-shadow: var(--aimara-hover-shadow, 0 1px 2px rgba(0, 0, 0, 0.12));
+}
+
+ul.tree.aimara-animate span.node_selected {
+	box-shadow: var(--aimara-selected-shadow, 0 0 0 2px rgba(138, 232, 138, 0.18));
+}
+
+ul.tree.aimara-animate img.exp_col {
+	transition: opacity 140ms ease, transform 140ms ease;
+}
+
+ul.tree.aimara-animate img.exp_col:hover {
+	transform: scale(1.08);
 }
 
 .menu,
 .sub-menu {
-  list-style: none;
-  background: #000;
+	margin: 0;
+	padding: 0;
+	font: 10px Verdana, sans-serif;
+	list-style: none;
+	background: var(--aimara-menu-bg, #f1f1f1);
+	color: var(--aimara-menu-text, #1f2933);
 }
-.sub-menu {
-  background: #F1F1F1;
-}
+
 .menu a {
-  text-decoration: none;
-  display: inline-block;
-  padding: 8px;
+	color: inherit;
+	text-decoration: none;
+	display: inline-block;
+	padding: 8px;
 }
 
 .menu span {
-  position: absolute;
+	position: absolute;
 	width: 100%;
 	height: 100%;
 }
 
 .menu div {
-  position: absolute;
+	position: absolute;
 	right: 4px;
-	top: 0px;
+	top: 0;
 	padding: 8px;
 }
 
@@ -129,47 +298,59 @@ span.node_selected a {
 }
 
 .menu img {
-  text-decoration: none;
-  display: inline-block;
+	text-decoration: none;
+	display: inline-block;
 	vertical-align: sub;
-  padding-left: 5px;
-}
-.menu li {
-  position: relative;
+	padding-left: 5px;
 }
 
-.menu li:hover {
-  background: aquamarine;
+.menu li {
+	position: relative;
+}
+
+.menu.aimara-animate li,
+.menu.aimara-animate .sub-menu li {
+	transition: background-color 120ms ease, color 120ms ease;
+}
+
+.menu li:hover,
+.sub-menu li:hover {
+	background: var(--aimara-menu-hover-bg, aquamarine);
 	cursor: pointer;
 }
 
-.sub-menu li:hover {
-  background: aquamarine;
-}
 .menu li:hover > .sub-menu {
-  display: block;
+	display: block;
 }
 
 .menu {
 	width: 150px;
 	position: absolute;
-	background: #F1F1F1;
-	-webkit-user-select: none; /* Chrome/Safari */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE10+ */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
 	cursor: default;
-	box-shadow: 2px 2px 3px #BDBDBD;
+	box-shadow: var(--aimara-shadow, 2px 2px 3px rgba(0, 0, 0, 0.26));
 }
 
-
 .sub-menu {
-  display: none;
-  position: absolute;
-  min-width: 150px;
-	box-shadow: 2px 2px 3px #BDBDBD;
+	display: none;
+	position: absolute;
+	min-width: 150px;
+	box-shadow: var(--aimara-shadow, 2px 2px 3px rgba(0, 0, 0, 0.26));
 }
 
 .menu .sub-menu {
-  top: 0;
-  left: 100%;
+	top: 0;
+	left: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	ul.tree.aimara-animate span.node,
+	ul.tree.aimara-animate span.node_selected,
+	ul.tree.aimara-animate img.exp_col,
+	.menu.aimara-animate li,
+	.menu.aimara-animate .sub-menu li {
+		transition: none;
+	}
 }
