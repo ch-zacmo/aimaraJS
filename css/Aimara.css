@@ -12,6 +12,9 @@
 	--aimara-line: #c7d0d9;
 	--aimara-filter-bg: #fff2a8;
 	--aimara-filter-selected-bg: #f3e58b;
+	--aimara-toggle-bg: #fff;
+	--aimara-toggle-border: #7f8790;
+	--aimara-toggle-mark: #4b5563;
 	--aimara-hover-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 	--aimara-selected-shadow: 0 0 0 2px rgba(138, 232, 138, 0.18);
 }
@@ -30,6 +33,9 @@
 	--aimara-line: #c7d0d9;
 	--aimara-filter-bg: #fff2a8;
 	--aimara-filter-selected-bg: #f3e58b;
+	--aimara-toggle-bg: #fff;
+	--aimara-toggle-border: #7f8790;
+	--aimara-toggle-mark: #4b5563;
 	--aimara-hover-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 	--aimara-selected-shadow: 0 0 0 2px rgba(138, 232, 138, 0.18);
 }
@@ -48,6 +54,9 @@
 	--aimara-line: #56616f;
 	--aimara-filter-bg: #675c20;
 	--aimara-filter-selected-bg: #74682a;
+	--aimara-toggle-bg: #1e242b;
+	--aimara-toggle-border: #8793a0;
+	--aimara-toggle-mark: #dce5ee;
 	--aimara-hover-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
 	--aimara-selected-shadow: 0 0 0 2px rgba(86, 192, 131, 0.2);
 }
@@ -66,6 +75,9 @@
 	--aimara-line: #c7d0d9;
 	--aimara-filter-bg: #fff2a8;
 	--aimara-filter-selected-bg: #f3e58b;
+	--aimara-toggle-bg: #fff;
+	--aimara-toggle-border: #7f8790;
+	--aimara-toggle-mark: #4b5563;
 	--aimara-hover-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
 	--aimara-selected-shadow: 0 0 0 2px rgba(138, 232, 138, 0.18);
 }
@@ -85,6 +97,9 @@
 		--aimara-line: #56616f;
 		--aimara-filter-bg: #675c20;
 		--aimara-filter-selected-bg: #74682a;
+		--aimara-toggle-bg: #1e242b;
+		--aimara-toggle-border: #8793a0;
+		--aimara-toggle-mark: #dce5ee;
 		--aimara-hover-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
 		--aimara-selected-shadow: 0 0 0 2px rgba(86, 192, 131, 0.2);
 	}
@@ -147,15 +162,51 @@ ul.tree li.last::after {
 	height: 11px;
 }
 
-img.exp_col {
+.exp_col {
 	position: absolute;
+	display: inline-block;
+	box-sizing: border-box;
+	width: 16px;
+	height: 16px;
 	margin-top: 4px;
 	margin-left: -20px;
 	vertical-align: sub;
 	z-index: 1;
+	cursor: pointer;
 }
 
-img.exp_col_empty {
+.exp_col::before {
+	content: "";
+	position: absolute;
+	left: 4px;
+	top: 4px;
+	width: 9px;
+	height: 9px;
+	box-sizing: border-box;
+	background: var(--aimara-toggle-bg, #fff);
+	border: 1px solid var(--aimara-toggle-border, #7f8790);
+}
+
+.exp_col::after {
+	content: "";
+	position: absolute;
+	left: 6px;
+	top: 6px;
+	width: 5px;
+	height: 5px;
+}
+
+.exp_col.aimara-toggle-expanded::after {
+	background: linear-gradient(var(--aimara-toggle-mark, #4b5563), var(--aimara-toggle-mark, #4b5563)) center / 5px 1px no-repeat;
+}
+
+.exp_col.aimara-toggle-collapsed::after {
+	background:
+		linear-gradient(var(--aimara-toggle-mark, #4b5563), var(--aimara-toggle-mark, #4b5563)) center / 5px 1px no-repeat,
+		linear-gradient(var(--aimara-toggle-mark, #4b5563), var(--aimara-toggle-mark, #4b5563)) center / 1px 5px no-repeat;
+}
+
+.exp_col_empty {
 	position: absolute;
 	margin-top: 4px;
 	margin-left: -20px;
@@ -255,11 +306,11 @@ ul.tree.aimara-animate span.node_selected {
 	box-shadow: var(--aimara-selected-shadow, 0 0 0 2px rgba(138, 232, 138, 0.18));
 }
 
-ul.tree.aimara-animate img.exp_col {
+ul.tree.aimara-animate .exp_col {
 	transition: opacity 140ms ease, transform 140ms ease;
 }
 
-ul.tree.aimara-animate img.exp_col:hover {
+ul.tree.aimara-animate .exp_col:hover {
 	transform: scale(1.08);
 }
 
@@ -294,6 +345,12 @@ ul.tree.aimara-animate img.exp_col:hover {
 }
 
 .menu .menu_img {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border-top: 4px solid transparent;
+	border-bottom: 4px solid transparent;
+	border-left: 5px solid currentColor;
 	vertical-align: middle;
 }
 
@@ -348,7 +405,7 @@ ul.tree.aimara-animate img.exp_col:hover {
 @media (prefers-reduced-motion: reduce) {
 	ul.tree.aimara-animate span.node,
 	ul.tree.aimara-animate span.node_selected,
-	ul.tree.aimara-animate img.exp_col,
+	ul.tree.aimara-animate .exp_col,
 	.menu.aimara-animate li,
 	.menu.aimara-animate .sub-menu li {
 		transition: none;

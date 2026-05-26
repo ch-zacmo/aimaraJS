@@ -46,9 +46,7 @@ AimaraJS can also be imported from Webpack, Vite, Rollup or another bundler:
 import createTree, { createTree as createAimaraTree } from 'aimarajs';
 import 'aimarajs/css/Aimara.css';
 
-var tree = createTree('div_tree', null, null, {
-  imagePath: '/assets/aimarajs/images/'
-});
+var tree = createTree('div_tree', null, null);
 ```
 
 CommonJS consumers can use either form:
@@ -58,9 +56,8 @@ const createTree = require('aimarajs');
 const { createTree: createAimaraTree } = require('aimarajs');
 ```
 
-When bundling an application, copy the package `images/` directory to a public
-asset path and pass that path through `imagePath` so the internal tree icons can
-be loaded at runtime.
+When bundling an application, copy only the image icons your application passes
+to `createNode` or context menus. AimaraJS internal controls are drawn by CSS.
 
 ## Historical API
 
@@ -110,7 +107,6 @@ tree.nodeAfterCloseEvent = function(node) {};
 
 ```js
 var tree = createTree('div_tree', 'white', context_menu, {
-  imagePath: 'vendor/aimaraJS/images/',
   theme: 'light',
   animate: false,
   allowHtmlLabels: true
@@ -121,7 +117,6 @@ Default options:
 
 ```js
 {
-  imagePath: 'images/',
   theme: 'light',
   animate: false,
   allowHtmlLabels: true
@@ -132,7 +127,6 @@ Available options:
 
 | Option | Default | Notes |
 | --- | --- | --- |
-| `imagePath` | `'images/'` | Directory for aimaraJS internal images such as `collapse.png`, `expand.png` and `right.png`. |
 | `theme` | `'light'` | Use `'light'`, `'dark'` or `'auto'`. |
 | `animate` | `false` | Enables light transitions while respecting `prefers-reduced-motion`. |
 | `allowHtmlLabels` | `true` | Keeps historical `innerHTML` labels. Set to `false` to insert labels as text. |
@@ -142,31 +136,6 @@ For compatibility, the first tree keeps the historical root ID `tree` and node
 IDs such as `node_0`. Additional trees receive unique IDs like
 `aimara_tree_2` to avoid collisions on pages with multiple instances. You can
 opt in to an explicit root ID with `name: 'my_tree'`.
-
-## Configurable image path
-
-`imagePath` is used only for aimaraJS internal images such as `collapse.png`,
-`expand.png` and `right.png`. Icons passed to `createNode` or context menus are
-kept exactly as provided for backwards compatibility.
-
-This is useful when the library is installed under a vendor directory:
-
-```js
-var tree = createTree('div_tree', 'white', context_menu, {
-  imagePath: 'vendor/aimaraJS/images/'
-});
-
-tree.drawTree();
-```
-
-You can change the internal image directory after creating the tree:
-
-```js
-tree.setImagePath('../vendor/aimaraJS/images/');
-```
-
-Newly rendered toggles use the new path, and toggles already rendered are
-updated when possible.
 
 ## Themes
 
@@ -222,7 +191,7 @@ tree.clearFilter();
 
 Existing three-argument `createTree` calls do not need to change. New options
 are optional and default to the historical behavior whenever possible. Node and
-menu icons are not rewritten by `imagePath`; keep passing the paths your app
+menu icon paths are kept exactly as provided, so keep passing the paths your app
 already uses.
 
 Labels still allow HTML by default for compatibility with older examples. If
