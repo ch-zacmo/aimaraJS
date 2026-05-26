@@ -18,9 +18,23 @@
   "author": "Zacharie Monnet",
   "type": "commonjs",
   "main": "lib/Aimara.js",
+  "module": "lib/Aimara.mjs",
   "browser": "dist/Aimara.min.js",
   "unpkg": "dist/Aimara.min.js",
   "jsdelivr": "dist/Aimara.min.js",
+  "exports": {
+    ".": {
+      "import": "./lib/Aimara.mjs",
+      "require": "./lib/Aimara.js",
+      "default": "./lib/Aimara.mjs"
+    },
+    "./css/Aimara.css": "./css/Aimara.css",
+    "./css/Example.css": "./css/Example.css",
+    "./images/*": "./images/*",
+    "./dist/Aimara.min.js": "./dist/Aimara.min.js",
+    "./dist/Aimara.min.js.map": "./dist/Aimara.min.js.map",
+    "./package.json": "./package.json"
+  },
   "files": [
     "css/",
     "dist/",

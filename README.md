@@ -38,6 +38,30 @@ Use the minified build in production pages:
 The build is generated with esbuild and also writes
 `dist/Aimara.min.js.map` for production debugging.
 
+## Bundler usage
+
+AimaraJS can also be imported from Webpack, Vite, Rollup or another bundler:
+
+```js
+import createTree, { createTree as createAimaraTree } from 'aimarajs';
+import 'aimarajs/css/Aimara.css';
+
+var tree = createTree('div_tree', null, null, {
+  imagePath: '/assets/aimarajs/images/'
+});
+```
+
+CommonJS consumers can use either form:
+
+```js
+const createTree = require('aimarajs');
+const { createTree: createAimaraTree } = require('aimarajs');
+```
+
+When bundling an application, copy the package `images/` directory to a public
+asset path and pass that path through `imagePath` so the internal tree icons can
+be loaded at runtime.
+
 ## Historical API
 
 Existing code keeps working with the historical three arguments:

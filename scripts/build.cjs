@@ -1,12 +1,15 @@
 const path = require('node:path');
+const fs = require('node:fs/promises');
 const esbuild = require('esbuild');
 const pkg = require('../package.json');
 
 const rootDir = path.resolve(__dirname, '..');
+const entryPoint = path.join(rootDir, 'lib', 'Aimara.js');
+const banner = `/*! ${pkg.name} v${pkg.version} | ${pkg.author} | ${pkg.license} */`;
 
 async function build() {
   await esbuild.build({
-    entryPoints: [path.join(rootDir, 'lib', 'Aimara.js')],
+    entryPoints: [entryPoint],
     outfile: path.join(rootDir, 'dist', 'Aimara.min.js'),
     bundle: false,
     minify: true,
@@ -14,9 +17,14 @@ async function build() {
     target: ['es2017'],
     legalComments: 'none',
     banner: {
-      js: `/*! ${pkg.name} v${pkg.version} | ${pkg.author} | ${pkg.license} */`,
+      js: banner,
     },
   });
+
+  await Promise.all([
+    fs.rm(path.join(rootDir, 'dist', 'Aimara.mjs'), { force: true }),
+    fs.rm(path.join(rootDir, 'dist', 'Aimara.mjs.map'), { force: true }),
+  ]);
 }
 
 build().catch((error) => {
