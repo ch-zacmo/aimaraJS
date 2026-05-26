@@ -383,6 +383,7 @@ ul.tree.aimara-animate .exp_col:hover {
 .menu {
 	width: 150px;
 	position: absolute;
+	z-index: var(--aimara-menu-z-index, 10000);
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
