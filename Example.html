@@ -1,133 +1,174 @@
 <html>
 	<head>
 		<title>aimaraJS Simple Example</title>
-		<link rel="stylesheet" type="text/css" href="css/Aimara.css">
-		<link rel="stylesheet" type="text/css" href="css/Example.css">
+		<link rel="stylesheet" type="text/css" href="css/Aimara.css" />
+		<link rel="stylesheet" type="text/css" href="css/Example.css" />
 		<script src="lib/Aimara.js" type="text/javascript"></script>
 		<script type="text/javascript">
-			window.onload = function() {
+			var tree;
+			var legacy_tree;
+			var div_log;
+			var dynamic_node_counter = 1;
+			var lot0_branch_counter = 1;
 
+			window.onload = function () {
 				//Initializing Tree
 
 				//Tree Context Menu Structure
 				var contex_menu = {
-					'context1' : {
-						elements : [
+					context1: {
+						elements: [
 							{
-								text : 'Node Actions',
+								text: 'Node Actions',
 								icon: 'images/blue_key.png',
-								action : function(node) {
-
-								},
+								action: function (node) {},
 								submenu: {
-									elements : [
+									elements: [
 										{
-											text : 'Toggle Node',
+											text: 'Toggle Node',
 											icon: 'images/leaf.png',
-											action : function(node) {
+											action: function (node) {
 												node.toggleNode();
-											}
+											},
 										},
 										{
-											text : 'Expand Node',
+											text: 'Expand Node',
 											icon: 'images/leaf.png',
-											action : function(node) {
+											action: function (node) {
 												node.expandNode();
-											}
+											},
 										},
 										{
-											text : 'Collapse Node',
+											text: 'Collapse Node',
 											icon: 'images/leaf.png',
-											action : function(node) {
+											action: function (node) {
 												node.collapseNode();
-											}
+											},
 										},
 										{
-											text : 'Expand Subtree',
+											text: 'Expand Subtree',
 											icon: 'images/tree.png',
-											action : function(node) {
+											action: function (node) {
 												node.expandSubtree();
-											}
+											},
 										},
 										{
-											text : 'Collapse Subtree',
+											text: 'Collapse Subtree',
 											icon: 'images/tree.png',
-											action : function(node) {
+											action: function (node) {
 												node.collapseSubtree();
-											}
+											},
 										},
 										{
-											text : 'Delete Node',
+											text: 'Delete Node',
 											icon: 'images/delete.png',
-											action : function(node) {
+											action: function (node) {
 												node.removeNode();
-											}
+											},
 										},
-									]
-								}
+									],
+								},
 							},
 							{
-								text : 'Child Actions',
+								text: 'Child Actions',
 								icon: 'images/blue_key.png',
-								action : function(node) {
-
-								},
+								action: function (node) {},
 								submenu: {
-									elements : [
+									elements: [
 										{
-											text : 'Create Child Node',
+											text: 'Create Child Node',
 											icon: 'images/add1.png',
-											action : function(node) {
-												node.createChildNode('Created',false,'images/folder.png',null,'context1');
-											}
+											action: function (node) {
+												node.createChildNode(
+													'Created',
+													false,
+													'images/folder.png',
+													null,
+													'context1',
+												);
+											},
 										},
 										{
-											text : 'Create 1000 Child Nodes',
+											text: 'Create 1000 Child Nodes',
 											icon: 'images/add1.png',
-											action : function(node) {
-												for (var i=0; i<1000; i++)
-													node.createChildNode('Created -' + i,false,'images/folder.png',null,'context1');
-											}
+											action: function (node) {
+												for (var i = 0; i < 1000; i++)
+													node.createChildNode(
+														'Created -' + i,
+														false,
+														'images/folder.png',
+														null,
+														'context1',
+													);
+											},
 										},
 										{
-											text : 'Delete Child Nodes',
+											text: 'Delete Child Nodes',
 											icon: 'images/delete.png',
-											action : function(node) {
+											action: function (node) {
 												node.removeChildNodes();
-											}
-										}
-									]
-								}
-							}
-						]
-					}
+											},
+										},
+									],
+								},
+							},
+						],
+					},
 				};
 
 				//Creating the tree
-				tree = createTree('div_tree','white',contex_menu);
+				tree = createTree('div_tree', null, contex_menu, {
+					imagePath: 'images/',
+					theme: 'auto',
+					animate: true,
+				});
 
 				div_log = document.getElementById('div_log');
 
 				//Setting custom events
-				tree.nodeBeforeOpenEvent = function(node) {
+				tree.nodeBeforeOpenEvent = function (node) {
 					div_log.innerHTML += node.text + ': Before expand event<br/>';
-				}
+				};
 
-				tree.nodeAfterOpenEvent = function(node) {
+				tree.nodeAfterOpenEvent = function (node) {
 					div_log.innerHTML += node.text + ': After expand event<br/>';
-				}
+				};
 
-				tree.nodeBeforeCloseEvent = function(node) {
+				tree.nodeBeforeCloseEvent = function (node) {
 					div_log.innerHTML += node.text + ': Before collapse event<br/>';
-				}
+				};
+
+				tree.nodeAfterCloseEvent = function (node) {
+					div_log.innerHTML += node.text + ': After collapse event<br/>';
+				};
+
+				tree.on('select', function (node) {
+					div_log.innerHTML += node.text + ': Select listener<br/>';
+				});
+
+				tree.on('beforeOpen', function (node) {
+					div_log.innerHTML += node.text + ': beforeOpen listener<br/>';
+				});
 
 				//Loop to create test nodes
-				for (var i=1; i<10; i++) {
-					node1 = tree.createNode('Level 0 - Node ' + i,false,'images/star.png',null,null,'context1');
-					for (var j=1; j<5; j++) {
-						node2 = node1.createChildNode('Level 1 - Node ' + j, false, 'images/blue_key.png',null,'context1');
-						for (var k=1; k<5; k++) {
-							node3 = node2.createChildNode('Level 2 - Node ' + k, false, 'images/monitor.png',null,'context1');
+				for (var i = 1; i < 10; i++) {
+					var node1 = tree.createNode('Level 0 - Node ' + i, false, 'images/star.png', null, null, 'context1');
+					for (var j = 1; j < 5; j++) {
+						var node2 = node1.createChildNode(
+							'Level 1 - Node ' + j,
+							false,
+							'images/blue_key.png',
+							null,
+							'context1',
+						);
+						for (var k = 1; k < 5; k++) {
+							var node3 = node2.createChildNode(
+								'Level 2 - Node ' + k,
+								false,
+								'images/monitor.png',
+								null,
+								'context1',
+							);
 							/*for (var l=1; l<5; l++) {
 								node4 = node3.createChildNode('Level 3 - Node ' + l, false, 'images/key_green.png',null,'context1');
 								for (var m=1; m<5; m++) {
@@ -142,10 +183,131 @@
 				tree.drawTree();
 
 				//Adding node after tree is already rendered
-				tree.createNode('<a href="http://www.google.com">Link to Google</a',false,'images/leaf.png',null,null,'context1');
+				tree.createNode(
+					'<a href="http://www.google.com">Link to Google</a>',
+					false,
+					'images/leaf.png',
+					null,
+					null,
+					'context1',
+				);
 
-
+				create_legacy_example_tree();
 			};
+
+			function create_legacy_example_tree() {
+				legacy_tree = createTree('div_legacy_tree', 'white', null);
+				var node = legacy_tree.createNode('Text', false, 'images/star.png', null, null, null);
+				node.createChildNode('Child', false, 'images/folder.png', null, null);
+				legacy_tree.drawTree();
+			}
+
+			function log_message(message) {
+				document.getElementById('div_log').innerHTML += message + '<br/>';
+			}
+
+			function create_dynamic_node() {
+				var node = tree.createNode(
+					'Dynamic Node ' + dynamic_node_counter,
+					false,
+					'images/folder.png',
+					null,
+					null,
+					'context1',
+				);
+				tree.selectNode(node);
+				log_message(node.text + ': Created after drawTree');
+				dynamic_node_counter++;
+			}
+
+			function create_child_for_selected() {
+				if (tree.selectedNode == null) {
+					log_message('Select a node before creating a child');
+					return;
+				}
+
+				var child = tree.selectedNode.createChildNode(
+					'Dynamic Child ' + dynamic_node_counter,
+					false,
+					'images/file.png',
+					null,
+					'context1',
+				);
+				tree.selectedNode.expandNode();
+				tree.selectNode(child);
+				log_message(child.text + ': Created as child');
+				dynamic_node_counter++;
+			}
+
+			function create_1000_children_for_selected() {
+				if (tree.selectedNode == null) {
+					log_message('Select a node before creating 1000 children');
+					return;
+				}
+
+				var start_time = new Date().getTime();
+
+				for (var i = 0; i < 1000; i++) {
+					tree.selectedNode.createChildNode(
+						'Stress Child ' + i,
+						false,
+						'images/file.png',
+						null,
+						'context1',
+					);
+				}
+
+				tree.selectedNode.expandNode();
+				log_message('1000 children created in ' + (new Date().getTime() - start_time) + 'ms');
+			}
+
+			function create_deep_branch() {
+				var root = tree.createNode(
+					'Lot 0 Branch ' + lot0_branch_counter,
+					true,
+					'images/folder.png',
+					null,
+					null,
+					'context1',
+				);
+				var child = root.createChildNode('Lot 0 Level 1', true, 'images/blue_key.png', null, 'context1');
+				var grandchild = child.createChildNode('Lot 0 Level 2', true, 'images/monitor.png', null, 'context1');
+				grandchild.createChildNode('Lot 0 Level 3', false, 'images/file.png', null, 'context1');
+				tree.selectNode(root);
+				log_message(root.text + ': Created with multiple levels');
+				lot0_branch_counter++;
+			}
+
+			function create_html_label_node() {
+				var node = tree.createNode(
+					'<strong>HTML Label ' + dynamic_node_counter + '</strong>',
+					false,
+					'images/leaf.png',
+					null,
+					null,
+					'context1',
+				);
+				tree.selectNode(node);
+				log_message('HTML Label ' + dynamic_node_counter + ': Created with innerHTML');
+				dynamic_node_counter++;
+			}
+
+			function remove_selected_node() {
+				if (tree.selectedNode == null) {
+					log_message('Select a node before deleting');
+					return;
+				}
+
+				if (tree.selectedNode.parent == tree && tree.childNodes.length == 1) {
+					log_message('Keep at least one root node in this example');
+					return;
+				}
+
+				var removed_text = tree.selectedNode.text;
+				tree.selectedNode.removeNode();
+				tree.selectedNode = null;
+				log_message(removed_text + ': Removed');
+			}
 
 			function expand_all() {
 				tree.expandTree();
@@ -155,20 +317,69 @@
 				document.getElementById('div_log').innerHTML = '';
 			}
 
+			function toggle_animations() {
+				var enabled = !tree.options.animate;
+				tree.setAnimations(enabled);
+				log_message('Animations: ' + (enabled ? 'enabled' : 'disabled'));
+			}
+
+			function set_tree_theme(theme) {
+				tree.setTheme(theme);
+				log_message('Theme: ' + theme);
+			}
+
+			function apply_filter() {
+				var filter_input = document.getElementById('tree_filter');
+				tree.filter(filter_input.value);
+				log_message('Filter: ' + (filter_input.value || '(cleared)'));
+			}
+
+			function clear_filter() {
+				document.getElementById('tree_filter').value = '';
+				tree.clearFilter();
+				log_message('Filter cleared');
+			}
+
+			function filter_on_enter(event) {
+				if (event.key == 'Enter' || event.keyCode == 13) {
+					apply_filter();
+				}
+			}
+
 			function collapse_all() {
 				tree.collapseTree();
 			}
 		</script>
 	</head>
 	<body>
-		<img src="images/aimarajs2.png"/>
+		<img src="images/aimarajs2.png" />
 		<h2>Pure Javascript Tree Component</h2>
 		<button onclick="expand_all()">Expand All Nodes</button>
 		<button onclick="collapse_all()">Collapse All Nodes</button>
+		<button onclick="set_tree_theme('light')">Light Theme</button>
+		<button onclick="set_tree_theme('dark')">Dark Theme</button>
+		<button onclick="set_tree_theme('auto')">Auto Theme</button>
+		<button onclick="toggle_animations()">Toggle Animations</button>
 		<button onclick="clear_log()">Clear Log</button>
-		<br/><br/>
+		<div id="div_smoke_tests">
+			<h3>Modern Options</h3>
+			<button onclick="create_dynamic_node()">Create Dynamic Node</button>
+			<button onclick="create_child_for_selected()">Create Child On Selected</button>
+			<button onclick="create_1000_children_for_selected()">Create 1000 Children</button>
+			<button onclick="create_deep_branch()">Create Deep Branch</button>
+			<button onclick="create_html_label_node()">Create HTML Label</button>
+			<button onclick="remove_selected_node()">Remove Selected Node</button>
+			<input id="tree_filter" type="text" placeholder="Filter nodes" onkeyup="filter_on_enter(event)" />
+			<button onclick="apply_filter()">Filter</button>
+			<button onclick="clear_filter()">Clear Filter</button>
+			<span>Right-click a node to test the context menu with submenus.</span>
+		</div>
+		<br /><br />
 		<div id="div_log"></div>
 		<div id="div_tree"></div>
-
+		<div id="div_legacy_example">
+			<h3>Historical Usage</h3>
+			<div id="div_legacy_tree"></div>
+		</div>
 	</body>
 </html>

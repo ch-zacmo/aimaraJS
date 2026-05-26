@@ -8,6 +8,11 @@ body {
   width: 300px;
 }
 
+#div_legacy_tree {
+	font: 10px Verdana, sans-serif;
+	width: 220px;
+}
+
 #div_log {
 	width: 400px;
 	height: 400px;
@@ -18,4 +23,33 @@ body {
 	border: 1px solid gray;
 	font: 10px Verdana, sans-serif;
 	line-height: 16px;
+}
+
+#div_smoke_tests {
+	margin-top: 12px;
+	font: 10px Verdana, sans-serif;
+}
+
+#div_smoke_tests h3 {
+	margin-bottom: 8px;
+}
+
+#div_smoke_tests span {
+	margin-left: 8px;
+}
+
+#tree_filter {
+	font: 10px Verdana, sans-serif;
+	margin-left: 8px;
+	padding: 2px 4px;
+	width: 120px;
+}
+
+#div_legacy_example {
+	margin-top: 16px;
+	font: 10px Verdana, sans-serif;
+}
+
+#div_legacy_example h3 {
+	margin-bottom: 8px;
 }
